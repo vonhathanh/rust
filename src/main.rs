@@ -1,5 +1,7 @@
+pub mod float_eq;
 pub mod polynomial;
-use polynomial::Polynomial;
+
+use polynomial::{interpolate, Polynomial};
 
 fn main() {
     let zero = Polynomial::new(vec![]);
@@ -11,4 +13,15 @@ fn main() {
     println!("g: {}", g);
     let sum_gf = f + g;
     println!("sum_gf: {}", sum_gf);
+
+    let points1 = vec![(1.0, 1.0)];
+    println!("{}", interpolate(&points1).unwrap());
+
+    let points2 = vec![(1.0, 1.0), (2.0, 0.0)];
+    println!("{}", interpolate(&points2).unwrap());
+
+    let points3 = vec![(1.0, 1.0), (2.0, 4.0), (7.0, 9.0)];
+    println!("{}", interpolate(&points3).unwrap());
+    let f = interpolate(&points3).unwrap();
+    println!("{}, {}, {}", f.evaluate(1.0), f.evaluate(2.0), f.evaluate(7.0))
 }
