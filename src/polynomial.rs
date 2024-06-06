@@ -1,4 +1,5 @@
 use std::fmt;
+use std::ops::Add;
 
 pub struct Polynomial {
     pub coefficients: Vec<f32>,
@@ -22,5 +23,30 @@ impl fmt::Display for Polynomial {
             }
         }
         Ok(())
+    }
+}
+
+impl Add for Polynomial {
+
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        
+        let left_length = self.coefficients.len();
+        let right_length = other.coefficients.len();
+        let max_length = left_length.max(right_length);
+
+        let mut res: Vec<_> = vec![0.0; max_length];
+
+        for i in 0..max_length {
+            if i < left_length {
+                res[i] += self.coefficients[i];
+            }
+            if i < right_length {
+                res[i] += other.coefficients[i];
+            }
+        }
+
+        Polynomial { coefficients: res }
     }
 }

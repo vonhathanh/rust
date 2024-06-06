@@ -9,4 +9,6 @@ fn main() {
     println!("zero poly: {}", zero);
     println!("f: {}", f);
     println!("g: {}", g);
+    let sum_gf = f + g;
+    println!("sum_gf: {}", sum_gf);
 }
