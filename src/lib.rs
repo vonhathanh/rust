@@ -1,15 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
 pub mod float_eq;
 pub mod polynomial;
 
-use polynomial::{interpolate, Polynomial};
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::polynomial::*;
 
     #[test]
     fn polynomial() {
