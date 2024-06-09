@@ -25,7 +25,10 @@ mod tests {
         assert_eq!(interpolate(&points2).unwrap().to_string(), "2 + -1x");
 
         let points3 = vec![(1.0, 1.0), (2.0, 4.0), (7.0, 9.0)];
-        assert_eq!(interpolate(&points3).unwrap().to_string(), "-2.6666665 + 4x + -0.3333333x^2");
+        assert_eq!(
+            interpolate(&points3).unwrap().to_string(),
+            "-2.6666665 + 4x + -0.3333333x^2"
+        );
 
         let f = interpolate(&points3).unwrap();
         assert_eq!(f.evaluate(1.0), 1.0000002);
