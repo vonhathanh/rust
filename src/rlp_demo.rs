@@ -1,4 +1,4 @@
-pub enum RLPInput<T> {
+pub enum RLPInput<T: IntoIterator> {
     Bytes(Vec<u8>),
     List(Vec<T>)
 }
@@ -29,8 +29,9 @@ fn rb(x: Vec<u8>) -> Vec<u8> {
 
     result
 }
-
-fn rl<T: 'static>(x: Vec<T>) -> Vec<u8> {
+// [item 1, item 2, item 3]
+// item 1 = vec<u8>, item 2 = [item 2.1, item 2.2]
+fn rl<T: IntoIterator>(x: Vec<T>) -> Vec<u8> {
     println!("RL called");
 
     let mut result: Vec<u8> = vec![];
@@ -56,29 +57,17 @@ fn rl<T: 'static>(x: Vec<T>) -> Vec<u8> {
 }
 
 // run rlp() for every item in x
-fn serialize<T: 'static>(x: Vec<T>) -> Vec<u8> {
+fn serialize<T: IntoIterator>(x: Vec<T>) -> Vec<u8> {
     let mut result: Vec<u8> = vec![];
-    for item in x {
-        result.extend(rlp(RLPInput::<u8>::Bytes(serialize_item(item))))
-    }
+    // for item in x {
+    //     result.extend(rlp(RLPInput::<Vec<u8>>::Bytes(serialize_item(item))))
+    // }
     result
-}
-
-fn serialize_item<T: 'static>(item: T) -> Vec<u8> {
-    match item {
-        item if std::any::TypeId::of::<T>() == std::any::TypeId::of::<u8>() => {
-            vec![unsafe { std::mem::transmute_copy(&item) }]
-        },
-        item if std::any::TypeId::of::<T>() == std::any::TypeId::of::<Vec<u8>>() => {
-            unsafe { std::mem::transmute_copy::<T, Vec<u8>>(&item) }
-        },
-        _ => rlp(RLPInput::List(item)),
-    }
 }
 
 // rlp(x) = rb(x) if x is bytes
 // else rl(x)
-pub fn rlp<T: 'static>(x: RLPInput<T>)-> Vec<u8> {
+pub fn rlp<T: IntoIterator>(x: RLPInput<T>)-> Vec<u8> {
     match x {
         RLPInput::Bytes(bytes) => rb(bytes),
         RLPInput::List(list) => rl(list),
