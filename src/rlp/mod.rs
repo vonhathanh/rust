@@ -1,3 +1,8 @@
+pub mod header;
+pub mod error;
+pub mod encode;
+pub mod decode;
+
 /// RLP prefix byte for 0-length string.
 pub const EMPTY_STRING_CODE: u8 = 0x80;
 
