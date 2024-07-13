@@ -27,6 +27,7 @@ pub struct AccountState {
     // A 256 bit hash of the root node of the trie that encode the storage content of an account
     // (a mapping between 256 bit integer values)
     // encoded into the trie as: keccak256(all keys) -> RLP encoded of all values
+    // Note: storage_root is not a "physical" member of the AccountState and does not contribute to it serialization
     storage_root: Bytes,
     // The hash of the EVM byte codes of this address
     code_hash: Bytes,
