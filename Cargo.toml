@@ -1,9 +1,9 @@
 [package]
-name = "rust_tutorial"
+name = "rust"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.5.6", features = ["derive", "cargo"] }
-rand = "0.8.5"
-bytes = { version = "1.4", default-features = false }
+ruint = "1.12.3"
+alloy-rlp = "0.3.7"
+bytes = "1.6.0"
