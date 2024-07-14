@@ -6,4 +6,5 @@ edition = "2021"
 [dependencies]
 ruint = "1.12.3"
 alloy-rlp = "0.3.7"
+alloy-primitives = "0.7.7"
 bytes = "1.6.0"
