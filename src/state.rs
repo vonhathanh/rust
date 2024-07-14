@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use bytes::Bytes;
 
@@ -32,4 +32,23 @@ pub struct AccountState {
     // The hash of the EVM byte codes of this address
     code_hash: Bytes,
 
+}
+
+pub struct SubState {
+    // Accrued information that is acted upon immediately following the transaction
+    // A_s: set of accounts that will be discarded following the transaction completion
+    self_destruct_self: HashSet<B160>,
+    // A_l: the log series: series of archived and indexable 'checkpoints' in VM code execution
+    // that allow contract-calls to be easily tracked by onlooker external to the Ethereum world
+    logs: Vec<Bytes>,
+    // A_t: set of touched accounts, the empty ones are deleted after transaction end
+    touched_accounts: HashSet<B160>,
+    // A_r: refund balance, increased through using the SSTORE instruction to reset contract storage
+    refund: B256,
+    // EIP-2929, A_a: set of accessed account addresses, A_k, set of accessed storage keys
+    // A_k = (address, 32-byte storage slot) why 32-byte? Because 32-byte = 256 bit
+    // Note: In the Yellow Paper, A_a is initialized as Pi, set of precompiled addresses, we'll ignore them for now
+    // since we don't even know what the heck they are
+    accessed_accounts: HashSet<B160>,
+    accessed_storage: HashMap<B160, Bytes>,
 }

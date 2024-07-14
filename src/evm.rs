@@ -7,7 +7,7 @@ pub struct EVM {
     subState: SubState,
     // A simple stack with word size = 256 bit. Maximum size of the stack is 1024
     stack: Stack,
-    // A simple word-addressed byte array
+    // A simple word-addressed byte array (address size = 2 bytes, word size = 32 bytes)
     memory: Memory,
     // Unlike memory, which is volatile, storage is non volatile and is maintained as part of the system state
     storage: Storage,
