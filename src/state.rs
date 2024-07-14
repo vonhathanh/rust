@@ -17,8 +17,6 @@ pub struct WorldState {
     trie: HashMap<Address,  AccountState>,
 }
 
-pub struct EVMState;
-
 pub struct AccountState {
     // Number of transactions sent from this address or 
     // in the case of contract-account, the number of contract-creation made by this account
@@ -39,7 +37,7 @@ pub struct AccountState {
 pub struct SubState {
     // Accrued information that is acted upon immediately following the transaction
     // A_s: set of accounts that will be discarded following the transaction completion
-    self_destruct_self: HashSet<Address>,
+    self_destruct_set: HashSet<Address>,
     // A_l: the log series: series of archived and indexable 'checkpoints' in VM code execution
     // that allow contract-calls to be easily tracked by onlooker external to the Ethereum world
     logs: Vec<Bytes>,
