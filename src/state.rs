@@ -52,3 +52,27 @@ pub struct SubState {
     accessed_accounts: HashSet<Address>,
     accessed_storage: HashMap<Address, Bytes>,
 }
+
+// Machine state (µ)
+// we define it recursively with a function X. This uses an iterator function O (which defines the result of a
+// single cycle of the state machine) together with functions Z which determines if the present state is an exceptional
+// halting state of the machine and H, specifying the output data of the instruction if and only if the present state is a
+// normal halting state of the machine
+// Note: emmpty sequence ([]) is different with empty set (())
+// empty set -> continue, empty sequence -> halt
+pub struct EVMState {
+    // gas available
+    gas: u64,
+    // program counter
+    pc: U256,
+    // memory contents: a series of zeroes of size 2^256
+    // it's a series, so we use Vec, but no computer can allocate Vec size of 2^256 (no program ever need that fucking memory)
+    // so I think we'll be fine
+    m: Vec<B256>,
+    // active number of words in memory
+    i: usize,
+    // stack contents
+    s: Vec<B256>,
+    // returndata buffer
+    o: Bytes
+}
