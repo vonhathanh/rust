@@ -1,9 +1,7 @@
-use std::borrow::BorrowMut;
-
 use alloy_primitives::{Address, U256};
 use bytes::Bytes;
 
-use crate::{block::BlockHeader, state::{self, EVMState, SubState, WorldState}};
+use crate::{block::BlockHeader, operations::{OpCode, OPERATIONS}, state::{EVMState, SubState, WorldState}};
 
 pub struct EVM<'a> {
     // Global system state (sigma)
@@ -19,7 +17,16 @@ pub struct EVM<'a> {
 
 impl<'a> EVM<'a> {
     pub fn execute(&mut self) {
-        while self.state.pc < self.ex
+        while self.state.pc < self.execution_env.byte_code.len() {
+            let b = self.execution_env.byte_code[self.state.pc];
+            let operation = &OPERATIONS[b as usize];
+            if operation.name == OpCode::STOP {
+                return
+            }
+            let func = &FUNCTIONS[b as usize];
+            func(operation, &mut self);
+            // operation.execute(&mut self);
+        }
     }
 }
 
