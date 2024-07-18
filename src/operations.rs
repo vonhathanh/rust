@@ -34,11 +34,11 @@ pub struct Operation {
     pub name: OpCode,
     pub delta: u8,
     pub alpha: u8,
-    pub gas: u8,
+    pub gas: usize,
 }
 
 impl Operation {
-    pub const fn new(index: u8, name: OpCode, delta: u8, alpha: u8, gas: u8) -> Self {
+    pub const fn new(index: u8, name: OpCode, delta: u8, alpha: u8, gas: usize) -> Self {
         Operation { index, name, delta, alpha, gas }
     }
 }
