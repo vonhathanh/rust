@@ -1,4 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    vec,
+};
 
 use alloy_primitives::Address;
 use bytes::Bytes;
@@ -14,11 +17,19 @@ pub struct WorldState {
     // Secondly, it allows any previous state (whose root hash is known) to be recalled by simply
     // altering the root hash accordingly. Since we store all such root hashes in the blockchain, we are able to
     // trivially revert to old states.
-    pub trie: HashMap<Address,  AccountState>,
+    pub trie: HashMap<Address, AccountState>,
+}
+
+impl WorldState {
+    pub fn new() -> Self {
+        WorldState {
+            trie: HashMap::new(),
+        }
+    }
 }
 
 pub struct AccountState {
-    // Number of transactions sent from this address or 
+    // Number of transactions sent from this address or
     // in the case of contract-account, the number of contract-creation made by this account
     pub nonce: U256,
     // Number of Wei owned by this address
@@ -31,7 +42,7 @@ pub struct AccountState {
     // The hash of the EVM byte codes of this address
     pub code_hash: B256,
     // code: if None, do nothing otherwise load the code from storage if it need to execute calls
-    pub code: Option<Bytes>
+    pub code: Option<Bytes>,
 }
 
 pub struct SubState {
@@ -51,6 +62,19 @@ pub struct SubState {
     // since we don't even know what the heck they are
     pub accessed_accounts: HashSet<Address>,
     pub accessed_storage: HashMap<Address, Bytes>,
+}
+
+impl SubState {
+    pub fn new() -> Self {
+        SubState {
+            self_destruct_set: HashSet::new(),
+            logs: vec![],
+            touched_accounts: HashSet::new(),
+            refund: U256::ZERO,
+            accessed_accounts: HashSet::new(),
+            accessed_storage: HashMap::new(),
+        }
+    }
 }
 
 // Machine state (µ)
@@ -74,5 +98,18 @@ pub struct EVMState {
     // stack contents
     pub s: Vec<B256>,
     // returndata buffer
-    pub o: Bytes
+    pub o: Bytes,
+}
+
+impl EVMState {
+    pub fn new() -> Self {
+        EVMState {
+            gas: 0,
+            pc: 0,
+            m: vec![],
+            i: 0,
+            s: vec![],
+            o: Bytes::new(),
+        }
+    }
 }
