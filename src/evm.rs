@@ -1,7 +1,7 @@
 use alloy_primitives::{Address, U256};
 use bytes::Bytes;
 
-use crate::{block::BlockHeader, operations::{OpCode, OPERATIONS}, state::{EVMState, SubState, WorldState}};
+use crate::{block::BlockHeader, functions::FUNCTIONS, operations::{OpCode, OPERATIONS}, state::{EVMState, SubState, WorldState}};
 
 pub struct EVM<'a> {
     // Global system state (sigma)
@@ -24,8 +24,7 @@ impl<'a> EVM<'a> {
                 return
             }
             let func = &FUNCTIONS[b as usize];
-            func(operation, &mut self);
-            // operation.execute(&mut self);
+            func(operation, self);
         }
     }
 }
