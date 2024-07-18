@@ -1,4 +1,5 @@
-enum Opcode {
+#[derive(PartialEq)]
+pub enum OpCode {
     STOP,
     ADD,
     MUL,    
@@ -30,17 +31,17 @@ enum Opcode {
 
 pub struct Operation {
     pub index: u8,
-    pub name: Opcode,
+    pub name: OpCode,
     pub delta: u8,
     pub alpha: u8,
     pub gas: u8,
 }
 
 impl Operation {
-    pub const fn new(index: u8, name: Opcode, delta: u8, alpha: u8, gas: u8) -> Self {
+    pub const fn new(index: u8, name: OpCode, delta: u8, alpha: u8, gas: u8) -> Self {
         Operation { index, name, delta, alpha, gas }
     }
 }
 
-const ADD_OP: Operation = Operation::new(0x01, Opcode::ADD, 2, 1, 10);
-const OPERATIONS: [Operation; 1] = [ADD_OP];
+const ADD_OP: Operation = Operation::new(0x01, OpCode::ADD, 2, 1, 10);
+pub const OPERATIONS: [Operation; 1] = [ADD_OP];
