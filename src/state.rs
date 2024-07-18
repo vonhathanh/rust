@@ -1,8 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
-use alloy_primitives::{Address, B256};
+use alloy_primitives::Address;
 use bytes::Bytes;
-use ruint::aliases::U256;
+use ruint::aliases::{B256, U256};
 
 pub struct WorldState {
     // A mapping between addresses (160-bit identifiers) and account state (a data structure serialized as RLP)
@@ -44,7 +44,7 @@ pub struct SubState {
     // A_t: set of touched accounts, the empty ones are deleted after transaction end
     pub touched_accounts: HashSet<Address>,
     // A_r: refund balance, increased through using the SSTORE instruction to reset contract storage
-    pub refund: B256,
+    pub refund: U256,
     // EIP-2929, A_a: set of accessed account addresses, A_k, set of accessed storage keys
     // A_k = (address, 32-byte storage slot) why 32-byte? Because 32-byte = 256 bit
     // Note: In the Yellow Paper, A_a is initialized as Pi, set of precompiled addresses, we'll ignore them for now
@@ -62,13 +62,13 @@ pub struct SubState {
 // empty set -> continue, empty sequence -> halt
 pub struct EVMState {
     // gas available
-    pub gas: u64,
+    pub gas: usize,
     // program counter
-    pub pc: U256,
+    pub pc: usize,
     // memory contents: a series of zeroes of size 2^256
     // it's a series, so we use Vec, but no computer can allocate Vec size of 2^256 (no program ever need that fucking memory)
     // so I think we'll be fine
-    pub m: Vec<B256>,
+    pub m: Vec<u8>,
     // active number of words in memory
     pub i: usize,
     // stack contents
