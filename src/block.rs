@@ -1,10 +1,11 @@
 use alloy_primitives::{Address, Bytes, B256, U256};
 
+#[derive(Default)]
 pub struct BlockHeader {
     // parentHash: The Keccak 256-bit hash of the parent block’s header, in its entirety; formally Hp.
     parent_hash: B256,
     // ommersHash: A 256-bit hash field that is now deprecated due to the replacement of proof of work consensus. 
-    // It is now to a constant, KEC(RLP(()));   formally Ho.
+    // It is now to a constant, KEC(RLP(())); formally Ho.
     ommers_hash: B256,
     // beneficiary: The 160-bit address to which priority fees from this block are transferred; formally Hc.
     beneficiary: Address,
@@ -40,4 +41,10 @@ pub struct BlockHeader {
     nonce: u64,
     // baseFeePerGas: A scalar value equal to the amount of wei that is burned for each unit of gas consumed; formally Hf.
     base_fee_per_gas: U256,
+}
+
+impl BlockHeader {
+    pub fn new() -> Self {
+        BlockHeader::default()
+    }
 }

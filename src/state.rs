@@ -3,8 +3,7 @@ use std::{
     vec,
 };
 
-use alloy_primitives::Address;
-use bytes::Bytes;
+use alloy_primitives::{Address, Bytes};
 use ruint::aliases::{B256, U256};
 
 pub struct WorldState {
