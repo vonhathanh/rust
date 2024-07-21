@@ -46,7 +46,34 @@ impl<'a> EVM<'a> {
         }
     }
 
-    pub fn execute_tx(&mut self, tx: &Transaction) {}
+    pub fn execute_tx(&mut self, tx: &Transaction) -> ExecutionStatus {
+        if !self.validate_tx(tx) {
+            Error::TransactionIsNotValid;
+        }
+        // create checkpoint state sigma0
+        // 
+    }
+
+    fn validate_tx(&self, tx: &Transaction) -> bool {
+        // It's assumed that any transactions executed first pass the initial tests of intrinsic validity.
+        // 1. The transaction is well-formed RLP, with no additional trailing bytes
+        // 2. the transaction signature is valid
+        // 3. the transaction nonce is valid (equivalent to the sender account’s current nonce)
+        // 4. the sender account has no contract code deployed
+        // 5. the gas limit is no smaller than the intrinsic gas, g0 , used by the transaction
+        // 6. the sender account balance contains at least the cost, v0 , required in up-front payment
+        // 7. the maxFeePerGas, Tm , in the case of type 2 transactions, or gasPrice, Tp , in the case of type
+        // 0 and type 1 transactions, is greater than or equal to the block’s base fee, Hf ; and
+        // 8. for type 2 transactions, maxPriorityFeePerGas, Tf , must be no larger than maxFeePerGas, Tm
+
+        // Implementation
+        // calculate g0, the amount of gas this tx requires to be paid prior to excution
+        // get effective gas price p: the amount of wei the transaction signer will pay per unit of
+        // gas consumed during the transaction’s execution
+        // calculate the up-front cost vo
+        // check validity
+        true
+    }
 }
 
 pub struct ExecutionEnvironment<'a> {
