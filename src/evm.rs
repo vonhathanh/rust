@@ -50,8 +50,14 @@ impl<'a> EVM<'a> {
         if !self.validate_tx(tx) {
             Error::TransactionIsNotValid;
         }
-        // create checkpoint state sigma0
-        // 
+        // increase nonce of the sender by one (irrevocable)
+        // balance -= part of the up-front cost Tgp
+        // gas = Tg - g0
+        // define the checkpoint state sigma_o by equaltion (68-70)
+        // calculate tuple of post-execution provisional states =
+        // (sigma_p, remaining gas g', accrued substate A, status code z) in eual (71)
+        // determine the refund amount g*
+        // update the final state sigma_*: subtract the refund from gas cost, add ether to block submitter
     }
 
     fn validate_tx(&self, tx: &Transaction) -> bool {
@@ -71,7 +77,7 @@ impl<'a> EVM<'a> {
         // get effective gas price p: the amount of wei the transaction signer will pay per unit of
         // gas consumed during the transaction’s execution
         // calculate the up-front cost vo
-        // check validity
+        // check validity by equaltion (65)
         true
     }
 }
